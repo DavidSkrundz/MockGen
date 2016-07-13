@@ -7,7 +7,8 @@ import Regex
 import Util
 
 public struct FileParser {
-	public static func parseFile(fileContents: String) -> [Protocol] {
+	public static func parseFile(fileName: String, fileContents: String) -> [Protocol] {
+		print("Processing: \(fileName)")
 		let fileLines = FileParser.splitLines(fileContents)
 		let trimmedLines = FileParser.trimWhitespace(fileLines)
 		let filteredLines = FileParser.filterComments(trimmedLines)

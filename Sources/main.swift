@@ -6,6 +6,9 @@
 let config = Configuration(fileName: "MockGen")
 
 let swiftFileContents = FileLoader.findAndLoadSwiftFiles()
+
+print("")
+print("Processing Files...")
 let protocols = swiftFileContents.flatMap(FileParser.parseFile)
 
 let outputFileHeader = [

@@ -55,6 +55,7 @@ public struct Protocol {
 			}
 		}
 		
+		print("  Found: \(protocolName)")
 		return Protocol(name: protocolName, variables: variables, functions: functions)
 	}
 	

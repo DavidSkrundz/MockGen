@@ -8,7 +8,7 @@ import Regex
 
 public struct FileLoader {
 	private static let attributeRegex = try! Regex("/\\/\\/\\@/")
-	public static func findAndLoadSwiftFiles() -> [String] {
+	public static func findAndLoadSwiftFiles() -> [(String, String)] {
 		let swiftFilePaths = findFiles(".swift")
 		
 		print("")
@@ -16,11 +16,12 @@ public struct FileLoader {
 		return swiftFilePaths
 			.flatMap { try? (String(contentsOfFile: $0), $0) }
 			.filter { (fileContents, filePath) -> Bool in
+				print("Checking: \(NSURL(string: filePath)?.lastPathComponent ?? "")")
 				if attributeRegex.match(fileContents).isEmpty { return false }
 				print("Found: \(NSURL(string: filePath)!.lastPathComponent!)")
 				return true
 			}
-			.map { $0.0 }
+			.map { ($0.1, $0.0) }
 	}
 	
 	private static func findFiles(_ `extension`: String) -> [String] {
