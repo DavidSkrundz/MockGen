@@ -3,6 +3,7 @@
 //  MockGen
 //
 
+import Foundation
 import Regex
 import Util
 
@@ -21,9 +22,16 @@ public struct FileParser {
 		return lineSplitRegex.match(string).map { $0.match }
 	}
 	
-	private static let whitespaceTrimmingRegex = try! Regex("\\S+(?:.+\\S+)?")
+	// Regex is too slow for now
+//	private static let whitespaceTrimmingRegex = try! Regex("\\S+(?:.+\\S+)?")
+	private static let whitespaceTrimmingRegex = try! RegularExpression(pattern: "\\S+(?:.+\\S+)?", options: [])
 	private static func trimWhitespace(_ strings: [String]) -> [String] {
-		return strings.flatMap { whitespaceTrimmingRegex.match($0).first?.match }
+		return strings.flatMap { str in
+			guard let matchRange = whitespaceTrimmingRegex.matches(in: str, options: [], range: NSRange(location: 0, length: str.characters.count)).first?.range else { return nil }
+			return (str as NSString).substring(with: matchRange)
+		}
+		
+//		return strings.flatMap { whitespaceTrimmingRegex.match($0).first?.match }
 	}
 	
 	private static let commentStrippingRegex = try! Regex("\\/\\/[^@]")

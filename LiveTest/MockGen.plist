@@ -8,14 +8,20 @@
 		<string>Void</string>
 		<key>Double</key>
 		<string>0</string>
+		<key>String</key>
+		<string>&quot;&quot;</string>
 		<key>Bool</key>
 		<string>false</string>
 		<key>Int</key>
 		<string>0</string>
+		<key>Observable&lt;ConfigurationSettings&gt;</key>
+		<string>Observable.empty()</string>
 		<key>Observable&lt;Post&gt;</key>
 		<string>Observable.empty()</string>
-		<key>String</key>
-		<string>&quot;&quot;</string>
+		<key>Observable&lt;String&gt;</key>
+		<string>Observable.empty()</string>
+		<key>Observable&lt;TenantInfo?&gt;</key>
+		<string>Observable.empty()</string>
 	</dict>
 	<key>ProjectName</key>
 	<string>LiveTest</string>
