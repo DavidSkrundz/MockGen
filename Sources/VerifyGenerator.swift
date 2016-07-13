@@ -15,7 +15,7 @@ public struct VerifyGenerator {
 			if variable.hasSetter {
 				classStrings += generateVerifyFunction("\(variable.name)Set")
 				classStrings += generateVerifyCount("\(variable.name)Set")
-				let function = Function(name: "\(variable.name)Set", arguments: [Argument(name: variable.name, type: variable.type)], returnType: "")
+				let function = Function(name: "\(variable.name)Set", arguments: [Argument(access: "", name: variable.name, type: variable.type)], returnType: "")
 				classStrings += generateVerifyArguments(function)
 			}
 		}
@@ -59,9 +59,9 @@ public struct VerifyGenerator {
 	}
 	
 	private static func generateVerifyArguments(_ function: Function) -> [String] {
-		let functionArguments = function.arguments.map { "\($0.name): \($0.type)" }.joined(separator: ", ")
+		let functionArguments = function.arguments.map { "\($0.access): \($0.type)" }.joined(separator: ", ")
 		let functionArgumentTypes = function.arguments.map { "\($0.type)" }.joined(separator: ", ")
-		let functionArgumentCall = function.arguments.enumerated().map { "\($1.name): args.\($0)" }.joined(separator: ", ")
+		let functionArgumentCall = function.arguments.enumerated().map { "\($1.access): args.\($0)" }.joined(separator: ", ")
 		return [
 			"\tfunc \(function.name)(@noescape argsPredicate: (\(functionArguments)) -> Bool) {",
 			"\t\treturn self.verifyCalled(\"\(function.name)\") { args in",

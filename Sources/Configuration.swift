@@ -21,7 +21,7 @@ public struct Configuration {
 			self.additionalImports = configDict["AdditionalImports"] as! [String]
 			
 			var loadedTypeMap = configDict["TypeMap"] as! [String : String]
-			loadedTypeMap["Void"] = "Void"
+			loadedTypeMap["Void"] = "()"
 			
 			self.typeMap = loadedTypeMap
 		} else {

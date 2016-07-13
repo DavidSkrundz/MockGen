@@ -16,7 +16,7 @@ public struct Protocol {
 	private static let protocolVariableRegex = try! Regex("var +(\\w+) *\\: *([\\w<\\[?:\\]>]+) *\\{ *get *(set)? *?\\}")
 	private static let protocolFunctionRegex = try! Regex("func +([\\w<\\[?:\\]>]+) *\\((?: *(\\w+[^)]*[\\w<\\[?:\\]>]) *)?\\)(?: *\\-\\> *([\\w<\\[?:\\]>]+))?")
 	private static let protocolFunctionArgumentsRegex = try! Regex("[^,]+")
-	private static let protocolFunctionArgumentPartsRegex = try! Regex("(\\w+) *\\: *([\\w<\\[?:\\]>]+)")
+	private static let protocolFunctionArgumentPartsRegex = try! Regex("(\\w+) *(\\w+)? *\\: *([\\w<\\[?:\\]>]+)")
 	internal static func constructProtocol(_ protocolLines: [String]) -> Protocol {
 		var protocolName = ""
 		var variables = [Variable]()
@@ -46,7 +46,12 @@ public struct Protocol {
 				for funcArgMatch in protocolFunctionArgumentsRegex.match(pFuncArgs) {
 					guard let whitespaceOnlyArg = whitespaceTrimmingRegex.match(funcArgMatch.match).first else { continue }
 					guard let argParts = protocolFunctionArgumentPartsRegex.match(whitespaceOnlyArg.match).first?.groups else { continue }
-					let argument = Argument(name: argParts[0], type: argParts[1])
+					let argument: Argument
+					if argParts[1].isEmpty {
+						argument = Argument(access: argParts[0], name: argParts[1], type: argParts[2])
+					} else {
+						argument = Argument(access: argParts[1], name: argParts[0], type: argParts[2])
+					}
 					arguments.append(argument)
 				}
 				
