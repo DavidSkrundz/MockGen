@@ -20,6 +20,10 @@ let outputFileHeader = [
 "@testable import \(config.projectName)",
 ].joined(separator: "\n")
 
+let additionalImports = config.additionalImports
+	.map { "import \($0)" }
+	.joined(separator: "\n")
+
 // mockClass = [...]
 
 print("")
@@ -34,7 +38,7 @@ let verifyableImplementation = protocols
 	.map { VerifyGenerator.generateVerifyClassConformingTo($0).joined(separator: "\n") }
 	.joined(separator: "\n")
 
-let mockGenOutput = [outputFileHeader, mockClass, protocolImplementation, verifyableImplementation].joined(separator: "\n\n")
+let mockGenOutput = [outputFileHeader, additionalImports, mockClass, protocolImplementation, verifyableImplementation].joined(separator: "\n\n")
 
 FileWriter.write(mockGenOutput, to: config.outputFilePath)
 
