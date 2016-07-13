@@ -30,8 +30,8 @@ public struct FileLoader {
 		
 		var filePaths = [String]()
 		
-		let basePath = Bundle.main().bundlePath
-		let fileManager = FileManager.default()
+		let basePath = Bundle.main.bundlePath
+		let fileManager = FileManager.default
 		
 		var pathsToCheck = [basePath]
 		while !pathsToCheck.isEmpty {

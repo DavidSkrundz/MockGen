@@ -11,6 +11,6 @@ public struct Function {
 	init(name: String, arguments: [Argument], returnType: String) {
 		self.name = name
 		self.arguments = arguments
-		self.returnType = returnType
+		self.returnType = returnType != "" ? returnType : "Void"
 	}
 }
