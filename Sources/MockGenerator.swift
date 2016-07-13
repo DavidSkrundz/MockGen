@@ -39,10 +39,11 @@ public struct MockGenerator {
 			let functionArguments = function.arguments.map { "\($0.name): \($0.type)" }.joined(separator: ", ")
 			let closureArguments = function.arguments.map { _ in "_" }.joined(separator: ", ")
 			let argumentList = function.arguments.map { "\($0.name)" }.joined(separator: ", ")
+			let argumentCallList = function.arguments.map { "\($0.name): \($0.name)" }.joined(separator: ", ")
 			classStrings.append("\tvar \(function.name)Override: (\(functionArguments)) -> (\(function.returnType)) = { (\(closureArguments)) in \(defaultValue) }")
 			classStrings.append("\tfunc \(function.name)(\(functionArguments)) -> \(function.returnType) {")
 			classStrings.append("\t\t\(recordMethodCall)(\"\(function.name)\", args: (\(argumentList)))")
-			classStrings.append("\t\treturn \(function.name)Override(\(argumentList))")
+			classStrings.append("\t\treturn \(function.name)Override(\(argumentCallList))")
 			classStrings.append("\t}")
 			classStrings.append("\t")
 		}
