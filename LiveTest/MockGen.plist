@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>TypeMap</key>
+	<dict>
+		<key></key>
+		<string>Void</string>
+		<key>Double</key>
+		<string>0</string>
+		<key>Bool</key>
+		<string>false</string>
+		<key>Int</key>
+		<string>0</string>
+		<key>Observable&lt;Post&gt;</key>
+		<string>Observable.empty()</string>
+		<key>String</key>
+		<string>&quot;&quot;</string>
+	</dict>
+	<key>ProjectName</key>
+	<string>LiveTest</string>
+	<key>RelativeOutputFilePath</key>
+	<string>Mock.swift</string>
+</dict>
+</plist>
