@@ -62,10 +62,21 @@ public struct MockGenerator {
 			let argumentList = `subscript`.arguments.map { "\($0.access)" }.joined(separator: ", ")
 			let subscriptArguments = `subscript`.arguments.map { ($0.name.isEmpty ? "" : "\($0.name) ") + "\($0.access): \($0.type)" }.joined(separator: ", ")
 			let argumentCallList = `subscript`.arguments.map { "\($0.access): \($0.access)" }.joined(separator: ", ")
-			classStrings.append("\tvar subscript\(overrideName)_Override: (\(closureDefArguments)) -> \(`subscript`.returnType) = { \(closureArguments) in \(defaultValue) }")
+			classStrings.append("\tvar subscript\(overrideName)_GetOverride: (\(closureDefArguments)) -> \(`subscript`.returnType) = { \(closureArguments) in \(defaultValue) }")
+			if `subscript`.hasSetter {
+				classStrings.append("\tvar subscript\(overrideName)_SetOverride: (\(closureDefArguments), newValue: \(`subscript`.returnType)) -> Void = { \(closureArguments), _ in }")
+			}
 			classStrings.append("\tsubscript (\(subscriptArguments)) -> \(`subscript`.returnType) {")
-			classStrings.append("\t\t\(recordMethodCall)(\"subscript\(overrideName)\", args: (\(argumentList)))")
-			classStrings.append("\t\treturn subscript\(overrideName)_Override(\(argumentCallList))")
+			classStrings.append("\t\tget {")
+			classStrings.append("\t\t\t\(recordMethodCall)(\"subscriptGet\(overrideName)\", args: (\(argumentList)))")
+			classStrings.append("\t\t\treturn subscript\(overrideName)_GetOverride(\(argumentCallList))")
+			classStrings.append("\t\t}")
+			if `subscript`.hasSetter  {
+				classStrings.append("\t\tset {")
+				classStrings.append("\t\t\t\(recordMethodCall)(\"subscriptSet\(overrideName)\", args: (\(argumentList), newValue))")
+				classStrings.append("\t\t\treturn subscript\(overrideName)_SetOverride(\(argumentCallList), newValue: newValue)")
+				classStrings.append("\t\t}")
+			}
 			classStrings.append("\t}")
 			classStrings.append("\t")
 		}
