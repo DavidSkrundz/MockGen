@@ -34,7 +34,7 @@ let mockClass = [
 "\t}",
 "\t",
 "\tfunc verifyCalled(name: String, count: Int) {",
-"\t\tXCTAssertEqual(count, self.accessLog[name]?.count)",
+"\t\tXCTAssertEqual(count, self.accessLog[name]?.count ?? 0)",
 "\t}",
 "\t",
 "\tfunc verifyCalled(name: String, @noescape argsPredicate:  (args: Any) -> Bool) {",
