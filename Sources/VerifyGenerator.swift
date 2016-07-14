@@ -15,12 +15,18 @@ public struct VerifyGenerator {
 			if variable.hasSetter {
 				classStrings += generateVerifyFunction("\(variable.name)Set")
 				classStrings += generateVerifyCount("\(variable.name)Set")
-				let function = Function(name: "\(variable.name)Set", arguments: [Argument(access: "", name: variable.name, type: variable.type)], returnType: "")
+				let function = Function(name: "\(variable.name)Set", genericParameters: "", arguments: [Argument(access: "", name: variable.name, type: variable.type)], returnType: "")
 				classStrings += generateVerifyArguments(function)
 			}
 		}
 		
 		for function in `protocol`.functions {
+			if !function.genericParameters.isEmpty {
+				print("***** Found Generic Function *****")
+				print("Create an extension implementing \"\(function.name)\" manually")
+				continue
+			}
+			
 			classStrings += generateVerifyFunction(function.name)
 			classStrings += generateVerifyCount(function.name)
 			if function.arguments.count > 0 {

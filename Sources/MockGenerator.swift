@@ -35,6 +35,12 @@ public struct MockGenerator {
 		}
 		
 		for function in `protocol`.functions {
+			if !function.genericParameters.isEmpty {
+				print("***** Found Generic Function *****")
+				print("Create an extension implementing \"\(function.name)\" manually")
+				continue
+			}
+			
 			guard let defaultValue = defaultValueDictionary[function.returnType] else { fatalError("\(function.returnType) does not have a known defalt value") }
 			let closureDefArguments = function.arguments.map { "\($0.access): \($0.type)" }.joined(separator: ", ")
 			let functionArguments = function.arguments.map { ($0.name.isEmpty ? "" : "\($0.name)") + "\($0.access): \($0.type)" }.joined(separator: ", ")
@@ -47,8 +53,8 @@ public struct MockGenerator {
 						return "\(argument.name): \(argument.access)"
 					}
 				}.joined(separator: ", ")
-			classStrings.append("\tvar \(function.name)Override: (\(closureDefArguments)) -> \(function.returnType) = { (\(closureArguments)) in \(defaultValue) }")
-			classStrings.append("\tfunc \(function.name)(\(function))(\(functionArguments)) -> \(function.returnType) {")
+			classStrings.append("\tvar \(function.name)_Override: (\(closureDefArguments)) -> \(function.returnType) = { (\(closureArguments)) in \(defaultValue) }")
+			classStrings.append("\tfunc \(function.name)(\(functionArguments)) -> \(function.returnType) {")
 			classStrings.append("\t\t\(recordMethodCall)(\"\(function.name)\", args: (\(argumentList)))")
 			classStrings.append("\t\treturn \(function.name)Override(\(argumentCallList))")
 			classStrings.append("\t}")

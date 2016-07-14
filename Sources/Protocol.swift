@@ -40,12 +40,6 @@ public struct Protocol {
 			}
 			
 			if let protocolFunctionMatch = protocolFunctionRegex.match(line).first {
-				if !protocolFunctionMatch.groups[1].isEmpty {
-					print("***** Found Generic Function *****")
-					print("Create an extension implementing \(protocolFunctionMatch.groups[0]) manually")
-					continue
-				}
-				
 				var arguments = [Argument]()
 				
 				let pFuncArgs = protocolFunctionMatch.groups[2]
@@ -61,7 +55,7 @@ public struct Protocol {
 					arguments.append(argument)
 				}
 				
-				functions.append(Function(name: protocolFunctionMatch.groups[0], arguments: arguments, returnType: protocolFunctionMatch.groups[3]))
+				functions.append(Function(name: protocolFunctionMatch.groups[0], genericParameters: protocolFunctionMatch.groups[1], arguments: arguments, returnType: protocolFunctionMatch.groups[3]))
 				continue
 			}
 		}
