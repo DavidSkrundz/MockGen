@@ -6,6 +6,10 @@
 let mockClass = [
 "import XCTest",
 "",
+"func castToOptional<T>(x: Any) -> T? {",
+"\treturn Mirror(reflecting: x).descendant(\"Some\") as? T",
+"}",
+"",
 "class Mock {",
 "\tprivate var accessLog = [String : [Any]]()",
 "\t",

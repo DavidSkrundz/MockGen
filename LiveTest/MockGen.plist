@@ -12,6 +12,8 @@
 	<dict>
 		<key>[String : String]</key>
 		<string>[:]</string>
+		<key>Bool?</key>
+		<string>nil</string>
 		<key>Bool</key>
 		<string>false</string>
 		<key>Int</key>

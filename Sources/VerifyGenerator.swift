@@ -71,9 +71,14 @@ public struct VerifyGenerator {
 		var strings = [
 			"\tfunc \(function.overrideName)(@noescape argsPredicate: (\(functionArguments)) -> Bool) {",
 			"\t\treturn self.verifyCalled(\"\(function.overrideName)\") { args in",
-			"\t\t\tguard let args = args as? (\(functionArgumentTypes)) else { XCTFail(\"Argument tuple was of wrong type\"); return false }",
 		]
+		if function.arguments.count == 1 && functionArgumentTypes.characters.last == "?" {
+			strings.append("\t\t\tlet args: \(functionArgumentTypes) = castToOptional(args)")
+		} else {
+			strings.append("\t\t\tguard let args = args as? (\(functionArgumentTypes)) else { XCTFail(\"Argument tuple was of wrong type\"); return false }")
+		}
 		if function.arguments.count == 1 {
+			
 			strings.append("\t\t\treturn argsPredicate(\(function.arguments[0].access): args)")
 		} else {
 			strings.append("\t\t\treturn argsPredicate(\(functionArgumentCall))")
