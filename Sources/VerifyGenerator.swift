@@ -15,7 +15,7 @@ public struct VerifyGenerator {
 			if variable.hasSetter {
 				classStrings += generateVerifyFunction("\(variable.name)Set")
 				classStrings += generateVerifyCount("\(variable.name)Set")
-				let function = Function(name: "\(variable.name)Set", genericParameters: "", arguments: [Argument(access: "", name: variable.name, type: variable.type)], returnType: "")
+				let function = Function(name: "\(variable.name)Set", genericParameters: "", arguments: [Argument(access: variable.name, name: "", type: variable.type)], returnType: "")
 				classStrings += generateVerifyArguments(function)
 			}
 		}
