@@ -9,7 +9,7 @@ public struct Function {
 	public let returnType: String
 	
 	init(name: String, arguments: [Argument], returnType: String) {
-		self.name = name
+		self.name = name + arguments.map { "_\($0.access)" }.joined(separator: "")
 		self.arguments = arguments
 		self.returnType = returnType != "" ? returnType : "Void"
 	}

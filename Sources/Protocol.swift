@@ -14,7 +14,7 @@ public struct Protocol {
 	private static let longProtocolRegex = try! Regex("protocol +(\\w+) *(?:\\: *class)? *\\{")
 	private static let whitespaceTrimmingRegex = try! Regex("\\S+(?:.+\\S+)?")
 	private static let protocolVariableRegex = try! Regex("var +(\\w+) *\\: *([\\w<\\[?:\\]>]+) *\\{ *get *(set)? *?\\}")
-	private static let protocolFunctionRegex = try! Regex("func +([\\w<\\[?:\\]>]+) *\\((?: *(\\w+[^)]*[\\w<\\[?:\\]>]) *)?\\)(?: *\\-\\> *([\\w<\\[?:\\]>]+))?")
+	private static let protocolFunctionRegex = try! Regex("func +([\\w?]+)((?:<[\\w?]+>)?) *\\((?: *(\\w+.*[\\w<\\[?:\\]>]) *)?\\)(?: *\\-\\> *([\\w<\\[?:\\]>]+))?")
 	private static let protocolFunctionArgumentsRegex = try! Regex("[^,]+")
 	private static let protocolFunctionArgumentPartsRegex = try! Regex("(\\w+) *(\\w+)? *\\: *([\\w<\\[?:\\]>]+)")
 	internal static func constructProtocol(_ protocolLines: [String]) -> Protocol {
@@ -40,9 +40,15 @@ public struct Protocol {
 			}
 			
 			if let protocolFunctionMatch = protocolFunctionRegex.match(line).first {
+				if !protocolFunctionMatch.groups[1].isEmpty {
+					print("***** Found Generic Function *****")
+					print("Create an extension implementing \(protocolFunctionMatch.groups[0]) manually")
+					continue
+				}
+				
 				var arguments = [Argument]()
 				
-				let pFuncArgs = protocolFunctionMatch.groups[1]
+				let pFuncArgs = protocolFunctionMatch.groups[2]
 				for funcArgMatch in protocolFunctionArgumentsRegex.match(pFuncArgs) {
 					guard let whitespaceOnlyArg = whitespaceTrimmingRegex.match(funcArgMatch.match).first else { continue }
 					guard let argParts = protocolFunctionArgumentPartsRegex.match(whitespaceOnlyArg.match).first?.groups else { continue }
@@ -55,7 +61,7 @@ public struct Protocol {
 					arguments.append(argument)
 				}
 				
-				functions.append(Function(name: protocolFunctionMatch.groups[0], arguments: arguments, returnType: protocolFunctionMatch.groups[2]))
+				functions.append(Function(name: protocolFunctionMatch.groups[0], arguments: arguments, returnType: protocolFunctionMatch.groups[3]))
 				continue
 			}
 		}
