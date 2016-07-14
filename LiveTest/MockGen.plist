@@ -10,6 +10,8 @@
 	<array/>
 	<key>TypeMap</key>
 	<dict>
+		<key>[String : String]</key>
+		<string>[:]</string>
 		<key>Bool</key>
 		<string>false</string>
 		<key>Int</key>

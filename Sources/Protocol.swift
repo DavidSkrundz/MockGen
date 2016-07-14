@@ -14,7 +14,7 @@ public struct Protocol {
 	private static let shortProtocolRegex = try! Regex("protocol +(\\w+) *(?:\\: *class)? *\\{\\}")
 	private static let longProtocolRegex = try! Regex("protocol +(\\w+) *(?:\\: *class)? *\\{")
 	private static let whitespaceTrimmingRegex = try! Regex("\\S+(?:.+\\S+)?")
-	private static let protocolVariableRegex = try! Regex("var +(\\w+) *\\: *([\\w<\\[?:\\]>]+) *\\{ *get *(set)? *?\\}")
+	private static let protocolVariableRegex = try! Regex("var +(\\w+) *\\: *((?:[\\w<\\[?:\\]>] ??)+) *\\{ *get *(set)? *?\\}")
 	private static let protocolFunctionRegex = try! Regex("func +([\\w?]+)((?:<[\\w?]+>)?) *\\((?: *(\\w+.*[\\w<\\[?:\\]>]) *)?\\)(?: *\\-\\> *([\\w<\\[?:\\]>]+))?")
 	private static let protocolFunctionArgumentsRegex = try! Regex("[^,]+")
 	private static let protocolFunctionArgumentPartsRegex = try! Regex("(\\w+) *(\\w+)? *\\: *([\\w<\\[?:\\]>]+)")
