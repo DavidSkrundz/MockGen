@@ -22,8 +22,7 @@ public struct VerifyGenerator {
 		
 		for function in `protocol`.functions {
 			if !function.genericParameters.isEmpty {
-				print("***** Found Generic Function *****")
-				print("Create an extension implementing \"\(function.name)\" manually")
+				classStrings.append("\tERROR - Copy implementation of \(function.overrideName) here")
 				continue
 			}
 			
