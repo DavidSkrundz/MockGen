@@ -7,7 +7,7 @@ public struct VerifyGenerator {
 	public static func generateVerifyClassConformingTo(_ `protocol`: Protocol) -> [String] {
 		var classStrings = [String]()
 		
-		classStrings.append("class Verifyable\(`protocol`.name): Verifyable, \(`protocol`.name) {")
+		classStrings.append("class Verifyable\(`protocol`.name): Verifyable {")
 		
 		for variable in `protocol`.variables {
 			classStrings += generateVerifyFunction("\(variable.name)Get")
