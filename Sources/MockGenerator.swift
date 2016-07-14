@@ -54,6 +54,22 @@ public struct MockGenerator {
 			classStrings.append("\t")
 		}
 		
+		for `subscript` in `protocol`.subscripts {
+			guard let defaultValue = defaultValueDictionary[`subscript`.returnType] else { fatalError("\(`subscript`.returnType) does not have a known defalt value") }
+			let closureDefArguments = `subscript`.arguments.map { "\($0.access): \($0.type)" }.joined(separator: ", ")
+			let closureArguments = `subscript`.arguments.map { _ in "_" }.joined(separator: ", ")
+			let overrideName = `subscript`.arguments.map { "_\($0.access)" }.joined(separator: "")
+			let argumentList = `subscript`.arguments.map { "\($0.access)" }.joined(separator: ", ")
+			let subscriptArguments = `subscript`.arguments.map { ($0.name.isEmpty ? "" : "\($0.name) ") + "\($0.access): \($0.type)" }.joined(separator: ", ")
+			let argumentCallList = `subscript`.arguments.map { "\($0.access): \($0.access)" }.joined(separator: ", ")
+			classStrings.append("\tvar subscript\(overrideName)_Override: (\(closureDefArguments)) -> \(`subscript`.returnType) = { \(closureArguments) in \(defaultValue) }")
+			classStrings.append("\tsubscript (\(subscriptArguments)) -> \(`subscript`.returnType) {")
+			classStrings.append("\t\t\(recordMethodCall)(\"subscript\(overrideName)\", args: (\(argumentList)))")
+			classStrings.append("\t\treturn subscript\(overrideName)_Override(\(argumentCallList))")
+			classStrings.append("\t}")
+			classStrings.append("\t")
+		}
+		
 		if classStrings.last == "\t" { classStrings.removeLast() }
 		classStrings.append("}")
 		

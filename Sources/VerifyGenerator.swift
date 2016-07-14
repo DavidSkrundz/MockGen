@@ -41,6 +41,7 @@ public struct VerifyGenerator {
 		classStrings.append("extension Mock\(`protocol`.name) {")
 		classStrings.append("\tvar verify: Verifyable\(`protocol`.name) { return Verifyable\(`protocol`.name)(accessLog: self.accessLog) }")
 		classStrings.append("}")
+		classStrings.append("")
 		
 		return classStrings
 	}
