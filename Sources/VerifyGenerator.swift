@@ -26,8 +26,8 @@ public struct VerifyGenerator {
 				continue
 			}
 			
-			classStrings += generateVerifyFunction(function.name)
-			classStrings += generateVerifyCount(function.name)
+			classStrings += generateVerifyFunction(function.overrideName)
+			classStrings += generateVerifyCount(function.overrideName)
 			if function.arguments.count > 0 {
 				classStrings += generateVerifyArguments(function)
 			}
@@ -68,14 +68,21 @@ public struct VerifyGenerator {
 		let functionArguments = function.arguments.map { "\($0.access): \($0.type)" }.joined(separator: ", ")
 		let functionArgumentTypes = function.arguments.map { "\($0.type)" }.joined(separator: ", ")
 		let functionArgumentCall = function.arguments.enumerated().map { "\($1.access): args.\($0)" }.joined(separator: ", ")
-		return [
-			"\tfunc \(function.name)(@noescape argsPredicate: (\(functionArguments)) -> Bool) {",
-			"\t\treturn self.verifyCalled(\"\(function.name)\") { args in",
+		var strings = [
+			"\tfunc \(function.overrideName)(@noescape argsPredicate: (\(functionArguments)) -> Bool) {",
+			"\t\treturn self.verifyCalled(\"\(function.overrideName)\") { args in",
 			"\t\t\tguard let args = args as? (\(functionArgumentTypes)) else { XCTFail(\"Argument tuple was of wrong type\"); return false }",
-			"\t\t\treturn argsPredicate(\(functionArgumentCall))",
+		]
+		if function.arguments.count == 1 {
+			strings.append("\t\t\treturn argsPredicate(\(function.arguments[0].access): args)")
+		} else {
+			strings.append("\t\t\treturn argsPredicate(\(functionArgumentCall))")
+		}
+		strings += [
 			"\t\t}",
 			"\t}",
 			"\t",
 		]
+		return strings
 	}
 }
