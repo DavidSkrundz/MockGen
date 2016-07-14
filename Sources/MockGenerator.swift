@@ -53,10 +53,10 @@ public struct MockGenerator {
 						return "\(argument.name): \(argument.access)"
 					}
 				}.joined(separator: ", ")
-			classStrings.append("\tvar \(function.name)_Override: (\(closureDefArguments)) -> \(function.returnType) = { (\(closureArguments)) in \(defaultValue) }")
+			classStrings.append("\tvar \(function.overrideName)_Override: (\(closureDefArguments)) -> \(function.returnType) = { (\(closureArguments)) in \(defaultValue) }")
 			classStrings.append("\tfunc \(function.name)(\(functionArguments)) -> \(function.returnType) {")
 			classStrings.append("\t\t\(recordMethodCall)(\"\(function.name)\", args: (\(argumentList)))")
-			classStrings.append("\t\treturn \(function.name)_Override(\(argumentCallList))")
+			classStrings.append("\t\treturn \(function.overrideName)_Override(\(argumentCallList))")
 			classStrings.append("\t}")
 			classStrings.append("\t")
 		}
