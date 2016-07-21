@@ -1,7 +1,4 @@
 //@Mockable
 protocol DataProvider {
-	var isConnected: Bool { get }
-	var isActive: Bool { get set }
-	
-	func getData(fromURL: String) -> String
+	var aaa: Bool? { get set }
 }

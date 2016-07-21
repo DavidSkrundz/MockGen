@@ -30,7 +30,7 @@ let mockClass = [
 "\t}",
 "\t",
 "\tfunc verifyCalled(name: String) {",
-"\t\tXCTAssertNil(self.accessLog[name])",
+"\t\tXCTAssertNotNil(self.accessLog[name])",
 "\t}",
 "\t",
 "\tfunc verifyCalled(name: String, count: Int) {",
