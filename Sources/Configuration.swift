@@ -13,10 +13,11 @@ public struct Configuration {
 	
 	init(fileName: String) {
 		let bundlePath = Bundle.main.bundleURL
-		let configFilePath = try! bundlePath.appendingPathComponent(fileName).appendingPathExtension("plist")
+		let configFilePath = bundlePath.appendingPathComponent(fileName).appendingPathExtension("plist")
+		let currentPath = URL(fileURLWithPath: FileManager.default.currentDirectoryPath, isDirectory: true)
 		
 		if let configDict = NSDictionary(contentsOf: configFilePath) {
-			self.outputFilePath = try! bundlePath.appendingPathComponent(configDict["RelativeOutputFilePath"] as! String)
+			self.outputFilePath = currentPath.appendingPathComponent(configDict["RelativeOutputFilePath"] as! String)
 			self.projectName = configDict["ProjectName"] as! String
 			self.additionalImports = configDict["AdditionalImports"] as! [String]
 			

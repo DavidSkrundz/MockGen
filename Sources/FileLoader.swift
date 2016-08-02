@@ -30,8 +30,8 @@ public struct FileLoader {
 		
 		var filePaths = [String]()
 		
-		let basePath = Bundle.main.bundlePath
 		let fileManager = FileManager.default
+		let basePath = fileManager.currentDirectoryPath
 		
 		var pathsToCheck = [basePath]
 		while !pathsToCheck.isEmpty {
@@ -40,7 +40,7 @@ public struct FileLoader {
 			var isDirectory: ObjCBool = false
 			guard fileManager.fileExists(atPath: path, isDirectory: &isDirectory) else { continue }
 			
-			if isDirectory {
+			if isDirectory.boolValue {
 				pathsToCheck += ((try? fileManager.contentsOfDirectory(atPath: path)) ?? [])
 					.map { "\(path)/\($0)" }
 			} else {

@@ -24,7 +24,7 @@ public struct FileParser {
 	
 	// Regex is too slow for now
 //	private static let whitespaceTrimmingRegex = try! Regex("\\S+(?:.+\\S+)?")
-	private static let whitespaceTrimmingRegex = try! RegularExpression(pattern: "\\S+(?:.+\\S+)?", options: [])
+	private static let whitespaceTrimmingRegex = try! NSRegularExpression(pattern: "\\S+(?:.+\\S+)?", options: [])
 	private static func trimWhitespace(_ strings: [String]) -> [String] {
 		return strings.flatMap { str in
 			guard let matchRange = whitespaceTrimmingRegex.matches(in: str, options: [], range: NSRange(location: 0, length: str.characters.count)).first?.range else { return nil }

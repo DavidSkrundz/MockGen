@@ -13,7 +13,7 @@ let protocols = swiftFileContents.flatMap(FileParser.parseFile)
 
 let outputFileHeader = [
 "//",
-"//  \(config.outputFilePath.lastPathComponent ?? ".swift")",
+"//  \(config.outputFilePath.lastPathComponent)",
 "//  MockGen",
 "//",
 "",
